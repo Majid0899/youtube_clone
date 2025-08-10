@@ -25,6 +25,15 @@ const userSchema = new mongoose.Schema(
       minlength: 6,
       select: false, 
     },
+    avatar: {
+      type: String,
+      default: "", // or a default avatar URL
+    },
+
+    channels: {
+      type: [String], // array of channel IDs
+      default: [],
+    },
 },
 {
     timestamps: true, 

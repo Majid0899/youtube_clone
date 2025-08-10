@@ -5,10 +5,11 @@ import store from './redux/store.js'
 import './index.css'
 import App from './App.jsx'
 import { createBrowserRouter,RouterProvider } from 'react-router-dom'
-import SignIn from './components/SignIn.jsx'
+import LogIn from './components/LogIn.jsx'
 import Home from './pages/Home.jsx'
 import CreateChannel from './components/CreateChannel.jsx'
 import NotFound from './pages/NotFound.jsx'
+import SignUp from './components/SignUp.jsx'
 const router=createBrowserRouter([
   {
     path:"/",
@@ -21,11 +22,14 @@ const router=createBrowserRouter([
       },
       {
         path:"/signin",
-        element:<SignIn />
+        element:<LogIn/>
       },
       {
         path:"/createChannel",
         element:<CreateChannel/>
+      },{
+        path:"/signup",
+        element:<SignUp />
       }
       
     ]

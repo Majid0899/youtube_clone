@@ -2,8 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv'
 import { createConnection } from './db.js';
 import userRouter from './Routes/userRoute.js'
-
-
+import cors from 'cors'
 
 
 dotenv.config()
@@ -16,6 +15,8 @@ const app=new express();
 
 /* JSON Middleware */
 app.use(express.json())
+
+app.use(cors())
 
 const PORT=process.env.PORT || 5000;
 
