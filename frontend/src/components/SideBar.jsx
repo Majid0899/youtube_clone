@@ -24,6 +24,7 @@ import FlagIcon from '@mui/icons-material/Flag';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import FeedbackIcon from '@mui/icons-material/Feedback';
 import SideBarFooter from './SideBarFooter';
+import { Link } from 'react-router-dom';
 const SideBar = () => {
 
     const sidebarOpen = useSelector((state) => state.SideBar.sidebarOpen)
@@ -73,8 +74,8 @@ const SideBar = () => {
                         {sidebarMainItems.map((item, index) => (
                             <li key={index}>
                                 <div className={`flex items-center space-x-3 px-3 py-2 rounded-lg cursor-pointer hover:bg-gray-600 ${item.active ? 'bg-gray-100' : ''}`}>
-                                    <item.icon className="w-5 h-5 dark:text-white" />
-                                    <span className="text-sm dark:text-white">{item.label}</span>
+                                    <Link to="/"><item.icon className="w-5 h-5 dark:text-white" />
+                                    <span className="text-sm dark:text-white">{item.label}</span></Link>
                                 </div>
                             </li>
                         ))}

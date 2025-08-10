@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+
 import MenuIcon from '@mui/icons-material/Menu';
 import YouTubeIcon from '@mui/icons-material/YouTube';
 import ToggleOffIcon from '@mui/icons-material/ToggleOff';
@@ -8,6 +8,7 @@ import { toggleTheme } from '../redux/themeSlice';
 import { toggleSidebar } from '../redux/sidebarslice';
 import SearchIcon from '@mui/icons-material/Search';
 import AddIcon from '@mui/icons-material/Add';
+import { Link } from 'react-router-dom';
 
 
 const Header = () => {
@@ -22,7 +23,7 @@ const Header = () => {
         {/* Logo */}
         <div className="flex items-center space-x-1">
           <div className="w-8 h-8 rounded-sm flex items-center justify-center">
-            <YouTubeIcon fontSize='large' className="text-red-500" />
+           <Link to="/"><YouTubeIcon fontSize='large' className="text-red-500" /></Link> 
 
           </div>
           <h2 className="font-roboto dark:text-white">YouTube<sup>IN</sup></h2>
@@ -50,10 +51,11 @@ const Header = () => {
       <div className="flex items-center space-x-4">
 
         <button onClick={() => dispatch(toggleTheme())}>{isdark ? <ToggleOnIcon fontSize='large' className='dark:text-white mx-2' /> : <ToggleOffIcon fontSize='large' color="action" />}</button>
-        <button className="hidden md:inline bg-gray-600 text-white px-4 py-1 rounded  transition">
+        <Link to="/createChannel"><button className="hidden md:inline bg-gray-600 text-white px-4 py-1 rounded  transition">
           <AddIcon fontSize='small' className='dark:text-white' /> Create
         </button>
-        <button className="bg-blue-500 text-white px-4 py-1  hover:bg-blue-600">Sign In</button>
+        </Link>
+        <button className="bg-blue-500 text-white px-4 py-1  hover:bg-blue-600"><Link to="/signin">Sign In</Link></button>
 
 
       </div>
