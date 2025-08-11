@@ -29,11 +29,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: "", // or a default avatar URL
     },
-
-    channels: {
-      type: [String], // array of channel IDs
-      default: [],
-    },
+    channels: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Channel' }]
 },
 {
     timestamps: true, 
@@ -65,10 +61,7 @@ userSchema.pre("save", async function (next){
 	}
   };
   
-
-
-//create a model
- 
+// Create a Model
 const Users=mongoose.model('users',userSchema)
 
 export default Users;
