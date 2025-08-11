@@ -1,4 +1,4 @@
-import Users from "../Model/User.js";
+import User from "../Model/User.js";
 import { generateToken } from "../Middlewares/auth.js";
 
 async function handleAddUser(req, res) {
@@ -6,11 +6,16 @@ async function handleAddUser(req, res) {
     //extract the user details from request body
     const data = req.body;
 
+    const existingEmail=await User.findOne({email:data.email})
+    if(existingEmail){
+      return res.status(400).json({error:"Email Already Exist !!"})
+    }
+
     /**
      * Create a user
      * save in the database
      */
-    const user = new Users(data);
+    const user = new User(data);
     const response = await user.save();
 
     /**Generate Token
@@ -45,7 +50,7 @@ async function handleLoginUser(req, res) {
      * Retreive a user from datbase
      * Compare the password
      */
-    const user = await Users.findOne({ email: email }).select("+password");
+    const user = await User.findOne({ email: email }).select("+password");
     if (!user || !(await user.comparePassword(password))) {
       return res.status(401).json({
         error: "Invalid Email and password",
@@ -73,7 +78,7 @@ async function handleUserProfile(req,res) {
         //extract the login user data using token verfication
         const user_data=req.user;
         //retreive the user from database;
-        const user=await Users.findById(user_data.id);
+        const user=await User.findById(user_data.id);
         if(!user){
           return res.status(200).json({error:"User is not found"})
 

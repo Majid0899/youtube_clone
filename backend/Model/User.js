@@ -23,6 +23,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: [true, 'Password is required'],
       minlength: 6,
+      trim:true,
       select: false, 
     },
     avatar: {
@@ -62,9 +63,9 @@ userSchema.pre("save", async function (next){
   };
   
 // Create a Model
-const Users=mongoose.model('users',userSchema)
+const User=mongoose.model('User',userSchema)
 
-export default Users;
+export default User;
   
 
 

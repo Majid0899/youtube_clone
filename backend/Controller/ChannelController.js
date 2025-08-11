@@ -1,5 +1,6 @@
 import Channel from "../Model/Channel.js";
-import Users from "../Model/User.js";
+import User from "../Model/User.js";
+
 
 async function handleaddChannel(req, res) {
   try {
@@ -24,15 +25,23 @@ async function handleaddChannel(req, res) {
       videos: [],
     });
 
-    const resp = await channel.save();
+    await channel.save();
 
-    const user = await Users.findById(req.user.id);
+    
+    const user = await User.findById(req.user.id);
+    if(!user){
+      return res.status(404).json({error:"User Not Exist"})
+    }
     user.channels.push(channel._id);
 
     await user.save();
 
-    res.status(201).json({ channel, message: "Channel Added Successfully" });
+    const response=await Channel.findById(channel._id).populate('owner','name email')
+
+
+    res.status(201).json({ channel:response, message: "Channel Added Successfully" });
   } catch (error) {
+    console.log(error)
     res.status(500).json({ error: "Internal Server Error" });
   }
 }
@@ -40,7 +49,7 @@ async function handleaddChannel(req, res) {
 async function handlegetChannelDetail(req, res) {
   try {
     //Extract the channel_id
-    const { channel_id } = req.body;
+    const  channel_id  = req.params.id;
 
     /**
      * Find the channel by id
@@ -51,14 +60,12 @@ async function handlegetChannelDetail(req, res) {
     if (!channel) {
       return res.status(404).json({ error: "Channel not found" });
     }
-    /*Check user is owner of channel or not */
-    if (!channel.owner.equals(req.user.id)) {
-      return res.status(400).json({ error: "User is not Channel Owner" });
-    }
+  
+    const response=await Channel.findById(channel_id).populate('owner','name email').populate('videos','title description thumbnailUrl videoUrl duration')
 
-    res.status(200).json({ channel, message: "Channel Fetched Successfully" });
+    res.status(200).json({ channel:response, message: "Channel Fetched Successfully" });
   } catch (error) {
-    
+    console.log(error)
     res.status(500).json({ error: "Internal Server Error" });
   }
 }
