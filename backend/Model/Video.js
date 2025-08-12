@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import commentSchema from './Comment.js';
+
 
 
 const videoSchema = new mongoose.Schema({
@@ -15,7 +15,7 @@ const videoSchema = new mongoose.Schema({
   likes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],     
   dislikes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],  
   uploadDate: { type: Date, default: Date.now },
-  comments: [commentSchema]
+  comments: [{type: mongoose.Schema.Types.ObjectId,ref:'Comment'}]
 }, { timestamps: true });
 
 

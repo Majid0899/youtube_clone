@@ -62,7 +62,7 @@ async function handleGetVideos(req, res) {
       .populate("channel", "channelName subscriber")
       .populate("uploader", "username email")
       .populate("likes", "username")
-      .populate("dislikes", "username");
+      .populate("dislikes", "username")
     res.status(200).json({ videos, message: "Video Fetched Successfully" });
   } catch (error) {
     res.status(500).json({ error: "Internal Server Error" });

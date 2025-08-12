@@ -7,5 +7,6 @@ const commentSchema = new mongoose.Schema({
   updatedAt: Date
 });
 
-export default commentSchema
+const Comment=mongoose.model('Comment',commentSchema)
+export default Comment
 
