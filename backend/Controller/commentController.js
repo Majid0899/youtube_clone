@@ -64,6 +64,56 @@ async function handleGetComments(req, res) {
   }
 }
 
+async function handleEditComment(req,res) {
+  try {
+    const commentId=req.params.id;
+    const {text}=req.body;
+    const comment=await Comment.findById(commentId)
+    if(!comment){
+      return res.status(404).json({error:"Comment not found!!!"})
+    }
+    if(!comment.user.equals(req.user.id)){
+      return res.status(400).json({error:"You are not Authorized to edit comments of Other Person"})
+    }
+
+    const response=await Comment.findByIdAndUpdate(commentId,{text},{
+      new:true,
+      runValidators:true,
+    })
+    console.log(response)
 
 
-export { handleAddComment, handleGetComments };
+    res.status(200).json({comment:response,message:"Comment Updated"})
+
+    
+    
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+  
+}
+
+async function handleDeleteComment(req,res) {
+  try {
+    const commentId=req.params.id;
+    const comment=await Comment.findById(commentId)
+    if(!comment){
+      return res.status(404).json({error:"comment not found!!!"})
+    }
+    if(!comment.user.equals(req.user.id)){
+      return res.status(400).json({error:"You are not Authorized to delete comments of Other Person"})
+    }
+
+    const response=await Comment.findByIdAndDelete(commentId)
+
+    res.status(200).json({response,message:"comment Deleted"})
+    
+  }  catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+  
+}
+
+export { handleAddComment, handleGetComments,handleEditComment,handleDeleteComment};
