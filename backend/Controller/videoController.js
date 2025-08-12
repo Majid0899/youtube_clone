@@ -13,6 +13,11 @@ async function handleAddVideo(req, res) {
       category,
     } = req.body;
 
+
+    if(!title || !description  || !thumbnailUrl || !videoUrl || !duration || !category || !channelId){
+      return res.json({error:"title,description,thumbnailUrl videoUrl category duration channelId are required "})
+    }
+
     const channel = await Channel.findById(channelId);
     if (!channel) {
       return res.status(404).json({ error: "Channel Not Found" });
@@ -42,7 +47,7 @@ async function handleAddVideo(req, res) {
 
     const response = await Video.findById(video._id)
       .populate("channel", "channelName subscriber")
-      .populate("uploader", "name email");
+      .populate("uploader", "username email");
 
     res
       .status(201)
@@ -55,9 +60,9 @@ async function handleGetVideos(req, res) {
   try {
     const videos = await Video.find()
       .populate("channel", "channelName subscriber")
-      .populate("uploader", "name email")
-      .populate("likes", "name")
-      .populate("dislikes", "name");
+      .populate("uploader", "username email")
+      .populate("likes", "username")
+      .populate("dislikes", "username");
     res.status(200).json({ videos, message: "Video Fetched Successfully" });
   } catch (error) {
     res.status(500).json({ error: "Internal Server Error" });

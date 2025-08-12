@@ -4,9 +4,14 @@ import { generateToken } from "../Middlewares/auth.js";
 async function handleAddUser(req, res) {
   try {
     //extract the user details from request body
-    const data = req.body;
+    const {username,email,password,avatar} = req.body;
 
-    const existingEmail=await User.findOne({email:data.email})
+    if(!username || !email || !password){
+      return res.status(400).json({error:"Please Enter Username email and password !!"})
+
+    }
+
+    const existingEmail=await User.findOne({email:email})
     if(existingEmail){
       return res.status(400).json({error:"Email Already Exist !!"})
     }
@@ -15,7 +20,12 @@ async function handleAddUser(req, res) {
      * Create a user
      * save in the database
      */
-    const user = new User(data);
+    const user = new User({
+      username,
+      email,
+      password,
+      avatar
+    });
     const response = await user.save();
 
     /**Generate Token
@@ -63,7 +73,7 @@ async function handleLoginUser(req, res) {
      */
     const payload = {
       id: user.id,
-      username: user.name,
+      username: user.username,
     };
     const token = generateToken(payload);
 
