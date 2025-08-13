@@ -21,7 +21,7 @@ const NoVideosCard = ({videos,setfinalVideos}) => {
         />
       </svg>
       <h3 className="text-gray-600 text-lg font-medium">No Videos Found</h3>
-      <p className="text-gray-400 text-sm mt-1">Try selecting a different category</p>
+      <p className="text-gray-400 text-sm mt-1">Try selecting a different category or Search Text</p>
      
     </div>
   );

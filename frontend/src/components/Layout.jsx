@@ -8,6 +8,7 @@ import { toggleSidebar } from '../redux/sidebarslice';
 const Layout = () => {
     const sidebarOpen = useSelector((state) => state.SideBar.sidebarOpen)
     const isdark = useSelector((state) => state.theme.isdark);
+
     const dispatch = useDispatch()
     return (
         <>
@@ -24,7 +25,7 @@ const Layout = () => {
                         onClick={() => dispatch(toggleSidebar())}
                     ></div>
                 )}
-
+                {/* Outlet */}
                 <Outlet />
                
             </div>

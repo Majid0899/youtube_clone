@@ -54,11 +54,11 @@ const VideoCard = ({ video }) => {
           {video.channel.channelName.charAt(0)}
         </div>
         <div className="flex-1 min-w-0">
-          <h3 className="text-sm font-medium line-clamp-2 group-hover:text-blue-600 transition-colors">
+          <h3 className="text-sm dark:text-white font-medium line-clamp-2 transition-colors">
             {video.title}
           </h3>
-          <p className="text-xs text-gray-600 mt-1">{video.channel.channelName}</p>
-          <div className="flex items-center text-xs text-gray-600 mt-1 space-x-1">
+          <p className="text-xs text-gray-600 dark:text-amber-600 mt-1 ">{video.channel.channelName}</p>
+          <div className="flex items-center dark:text-blue-600 text-xs text-gray-600 mt-1 space-x-1">
             <span>{formatViews(video.views)} views</span>
             <span>•</span>
             <span>{timeAgo(video.uploadDate)}</span>

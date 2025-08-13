@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import ToggleOffIcon from "@mui/icons-material/ToggleOff";
@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleTheme } from "../redux/themeSlice";
 import { toggleSidebar } from "../redux/sidebarslice";
+import { addSearchText } from "../redux/searchSlice";
 
 
 
@@ -16,7 +17,15 @@ import { toggleSidebar } from "../redux/sidebarslice";
 const Header = () => {
   const isdark = useSelector((state) => state.theme.isdark);
   const dispatch = useDispatch();
-  const avatar=useSelector((state)=>state.user.avatar)
+  const avatar = useSelector((state) => state.user.avatar)
+
+  const [input, setInput] = useState("")
+
+  const handleSearch = () => {
+    console.log(input)
+    dispatch(addSearchText(input))
+    setInput("")
+  }
 
 
   return (
@@ -39,10 +48,12 @@ const Header = () => {
         <div className="flex items-center gap-1">
           <input
             type="text"
+            value={input}
             placeholder="Search"
+            onChange={(e) =>  setInput(e.target.value)}
             className="w-full px-4 py-2 dark:text-white border max-sm:hidden border-gray-300 rounded-full focus:outline-none focus:border-blue-500"
           />
-          <button>
+          <button onClick={handleSearch} >
             <SearchIcon fontSize="medium" className="text-gray-600 dark:text-white" />
           </button>
         </div>
@@ -62,25 +73,25 @@ const Header = () => {
             <AddIcon fontSize="small" className="dark:text-white" /> Create
           </button>
         </Link>
-{avatar ? (
-  <Link to="/profile">
-    <img
-      src={avatar}
-      alt="User Avatar"
-      className="w-8 h-8 rounded-full border"
-    />
-  </Link>
-) : (
-  <Link to="/signin">
-    <button className="bg-blue-500 text-white px-4 py-1 hover:bg-blue-600">
-      Sign In
-    </button>
-  </Link>
-)}
-     
-      
- 
-     
+        {avatar ? (
+          <Link to="/profile">
+            <img
+              src={avatar}
+              alt="User Avatar"
+              className="w-8 h-8 rounded-full border"
+            />
+          </Link>
+        ) : (
+          <Link to="/signin">
+            <button className="bg-blue-500 text-white px-4 py-1 hover:bg-blue-600">
+              Sign In
+            </button>
+          </Link>
+        )}
+
+
+
+
 
       </div>
     </header>

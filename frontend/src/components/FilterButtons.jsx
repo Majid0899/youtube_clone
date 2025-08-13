@@ -1,9 +1,12 @@
 import React from 'react'
+import { useDispatch } from 'react-redux';
+import { addSearchText } from '../redux/searchSlice';
 
 const FilterButtons = ({ videos, setfinalVideos }) => {
   const filters = ['All', 'Music', 'Gaming', 'Live', 'News', 'Comedy', 'Sports', 'Learning', 'Fashion', 'Podcast'];
-
+  const dispatch=useDispatch()
   const handleFilterVideos = (filterValue) => {
+    dispatch(addSearchText(""))
     if (filterValue === 'All') {
       setfinalVideos(videos); // show all videos
     } else {

@@ -6,7 +6,7 @@ import videoRouter from './Routes/videoRoute.js'
 import cors from 'cors'
 import channelRouter from './Routes/channelRoute.js'
 import commentRouter from './Routes/commentRoute.js';
-
+import logger from "./Middlewares/logger.js"
 
 
 dotenv.config()
@@ -21,6 +21,8 @@ const app=new express();
 app.use(express.json())
 
 app.use(cors())
+
+app.use(logger)
 
 const PORT=process.env.PORT || 5000;
 
