@@ -50,11 +50,14 @@ const LogIn = () => {
           localStorage.setItem('token', response.data.token);
           localStorage.setItem('avatar',response.data.user.avatar)
           localStorage.setItem('username',response.data.user.username)
+          localStorage.setItem('channel',response.data.user.channels.length)
 
           setSuccessMessage(`${response.data.message} redirecting ....`);
+          console.log(response.data.user)
           dispatch(addUser({
             avatar:response.data.user.avatar,
             username:response.data.user.username,
+            channel:response.data.user.channels.length,
             token:response.data.token
           }))
           setTimeout(() => {

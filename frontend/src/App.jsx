@@ -12,6 +12,7 @@ export default function App() {
       dispatch(addUser({
         avatar:localStorage.getItem("avatar"),
         username:localStorage.getItem("username"),
+        channel:localStorage.getItem("channel"),
         token:token
       }))
     }

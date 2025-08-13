@@ -52,10 +52,12 @@ const SignUp = () => {
         if (response.data.token) {
           localStorage.setItem('token', response.data.token);
           localStorage.setItem('avatar', response.data.user.avatar);
-          localStorage.setItem('username',response.data.user.username)
+          localStorage.setItem('username',response.data.user.username);
+          localStorage.setItem('channel',response.data.user.channels.length);
           dispatch(addUser({
             avatar: response.data.user.avatar,
             username: response.data.user.username,
+            channel:response.data.user.channels.length,
             token: response.data.token
           }))
           setSuccessMessage(`${response.data.message} Redirecting...`);

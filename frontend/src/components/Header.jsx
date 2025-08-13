@@ -18,6 +18,7 @@ const Header = () => {
   const isdark = useSelector((state) => state.theme.isdark);
   const dispatch = useDispatch();
   const avatar = useSelector((state) => state.user.avatar)
+  const channel=useSelector((state)=>state.user.channel)
 
   const [input, setInput] = useState("")
 
@@ -67,12 +68,12 @@ const Header = () => {
             <ToggleOffIcon fontSize="large" color="action" />
           )}
         </button>
-
-        <Link to="/createChannel">
+{channel===0 &&  <Link to="/createChannel">
           <button className="hidden md:inline bg-gray-600 text-white px-4 py-1 rounded">
             <AddIcon fontSize="small" className="dark:text-white" /> Create
           </button>
-        </Link>
+        </Link>}
+       
         {avatar ? (
           <Link to="/profile">
             <img
