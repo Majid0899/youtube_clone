@@ -12,7 +12,7 @@ const LogIn = () => {
 
 
   const navigate = useNavigate();
-    const dispatch=useDispatch()
+  const dispatch = useDispatch()
 
   const handleLogIn = (e) => {
     e.preventDefault();
@@ -45,13 +45,23 @@ const LogIn = () => {
           email,
           password
         });
-    
+
         if (response.data.token) {
           localStorage.setItem('token', response.data.token);
-          dispatch(addUser(response.data.user))
-          setSuccessMessage(response.data.message || "Login successful! Redirecting...");
-          setTimeout(() => navigate('/'), 1500);
+          localStorage.setItem('avatar',response.data.user.avatar)
+          localStorage.setItem('username',response.data.user.username)
+
+          setSuccessMessage(`${response.data.message} redirecting ....`);
+          dispatch(addUser({
+            avatar:response.data.user.avatar,
+            username:response.data.user.username,
+            token:response.data.token
+          }))
+          setTimeout(() => {
+            navigate('/');
+          }, 1500);
         }
+
       } catch (error) {
         if (error.response?.data?.error) {
           setServerError(error.response.data.error);
@@ -100,7 +110,7 @@ const LogIn = () => {
               type="password"
               id="password"
               name="password"
-                autoComplete="current-password"
+              autoComplete="current-password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="mt-1 block w-full rounded-lg border dark:text-white border-gray-300 p-2 focus:border-blue-500 focus:ring focus:ring-blue-200"

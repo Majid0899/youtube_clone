@@ -16,8 +16,7 @@ import { toggleSidebar } from "../redux/sidebarslice";
 const Header = () => {
   const isdark = useSelector((state) => state.theme.isdark);
   const dispatch = useDispatch();
-  const {user,islogged}=useSelector((state)=>state.user);
-
+  const avatar=useSelector((state)=>state.user.avatar)
 
 
   return (
@@ -63,16 +62,22 @@ const Header = () => {
             <AddIcon fontSize="small" className="dark:text-white" /> Create
           </button>
         </Link>
-
-   {islogged ? (  <Link to="/profile">
-        <button className="bg-blue-500 text-white px-4 py-1 hover:bg-blue-600">
-         {user.name}
-        </button>
-      </Link>):( <Link to="/signin">
-        <button className="bg-blue-500 text-white px-4 py-1 hover:bg-blue-600">
-          Sign In
-        </button>
-      </Link>)}
+{avatar ? (
+  <Link to="/profile">
+    <img
+      src={avatar}
+      alt="User Avatar"
+      className="w-8 h-8 rounded-full border"
+    />
+  </Link>
+) : (
+  <Link to="/signin">
+    <button className="bg-blue-500 text-white px-4 py-1 hover:bg-blue-600">
+      Sign In
+    </button>
+  </Link>
+)}
+     
       
  
      

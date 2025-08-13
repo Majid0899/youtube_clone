@@ -28,7 +28,7 @@ const userSchema = new mongoose.Schema(
     },
     avatar: {
       type: String,
-      default: "", // or a default avatar URL
+      default: "https://img.freepik.com/free-psd/3d-illustration-human-avatar-profile_23-2150671142.jpg", // or a default avatar URL
     },
     channels: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Channel' }]
 },

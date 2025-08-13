@@ -14,7 +14,7 @@ const SignUp = () => {
   const [successMessage, setSuccessMessage] = useState("");
 
   const navigate = useNavigate();
-  const dispatch=useDispatch()
+  const dispatch = useDispatch()
 
   const handleSignIn = (e) => {
     e.preventDefault();
@@ -44,24 +44,28 @@ const SignUp = () => {
     async function sendData() {
       try {
         const response = await axios.post('http://localhost:5100/user/signin', {
-          name,
+          username: name,
           email,
           password
         });
-     
-     
 
         if (response.data.token) {
           localStorage.setItem('token', response.data.token);
-          dispatch(addUser(response.data.response));
-          setSuccessMessage("Signup successful! Redirecting...");
+          localStorage.setItem('avatar', response.data.user.avatar);
+          localStorage.setItem('username',response.data.user.username)
+          dispatch(addUser({
+            avatar: response.data.user.avatar,
+            username: response.data.user.username,
+            token: response.data.token
+          }))
+          setSuccessMessage(`${response.data.message} Redirecting...`);
           setTimeout(() => {
             navigate('/');
           }, 1500);
         }
       } catch (error) {
-        if (error.response?.data?.message) {
-          setServerError(error.response.data.message);
+        if (error.response?.data?.error) {
+          setServerError(error.response.data.error);
         } else {
           setServerError("An unexpected error occurred. Please try again.");
         }
@@ -99,7 +103,7 @@ const SignUp = () => {
               type="text"
               id="username"
               name="username"
-                autoComplete="username"
+              autoComplete="username"
               value={name}
               onChange={(e) => setName(e.target.value)}
               className="mt-1 block w-full rounded-lg border dark:text-white border-gray-300 p-2 focus:border-blue-500 focus:ring focus:ring-blue-200"
@@ -129,7 +133,7 @@ const SignUp = () => {
               type="password"
               id="password"
               name="password"
-                autoComplete="current-password"
+              autoComplete="current-password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="mt-1 block w-full rounded-lg border dark:text-white border-gray-300 p-2 focus:border-blue-500 focus:ring focus:ring-blue-200"

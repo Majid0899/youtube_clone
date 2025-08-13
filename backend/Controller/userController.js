@@ -40,7 +40,7 @@ async function handleAddUser(req, res) {
 
     const token = generateToken(payload);
 
-    res.status(201).json({user:response,token: token,message:"User Added Successfully" });
+    res.status(201).json({user:response,token: token,message:"User Registered Successfully" });
   } catch (error) {
     console.log(error)
     res.status(500).json({ error: "Internal Server error" });
