@@ -1,8 +1,43 @@
-import React from 'react'
+import React from 'react';
+
+function formatViews(views) {
+  if (views < 1000) return views.toString();
+  if (views < 1_000_000) return (views / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
+  if (views < 1_000_000_000) return (views / 1_000_000).toFixed(1).replace(/\.0$/, '') + 'M';
+  return (views / 1_000_000_000).toFixed(1).replace(/\.0$/, '') + 'B';
+}
+
+function timeAgo(uploadDate) {
+  const now = new Date();
+  const uploaded = new Date(uploadDate);
+
+  const diffMs = now - uploaded; // difference in milliseconds
+
+  const diffSeconds = Math.floor(diffMs / 1000);
+  const diffMinutes = Math.floor(diffSeconds / 60);
+  const diffHours = Math.floor(diffMinutes / 60);
+  const diffDays = Math.floor(diffHours / 24);
+  const diffMonths = (now.getFullYear() - uploaded.getFullYear()) * 12 + (now.getMonth() - uploaded.getMonth());
+  const diffYears = now.getFullYear() - uploaded.getFullYear();
+
+  if (diffSeconds < 60) {
+    return 'Just now';
+  } else if (diffMinutes < 60) {
+    return `${diffMinutes} minute${diffMinutes > 1 ? 's' : ''} ago`;
+  } else if (diffHours < 24) {
+    return `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`;
+  } else if (diffDays < 30) {
+    return `${diffDays} day${diffDays > 1 ? 's' : ''} ago`;
+  } else if (diffMonths < 12) {
+    return `${diffMonths} month${diffMonths > 1 ? 's' : ''} ago`;
+  } else {
+    return `${diffYears} year${diffYears > 1 ? 's' : ''} ago`;
+  }
+}
+
 
 const VideoCard = ({ video }) => {
   return (
-    /*Take the video prop and render the data */
     <div className="cursor-pointer group">
       <div className="relative mb-3">
         <img 
@@ -16,17 +51,17 @@ const VideoCard = ({ video }) => {
       </div>
       <div className="flex space-x-3">
         <div className="w-9 h-9 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-semibold text-sm">
-          {video.description}
+          {video.channel.channelName.charAt(0)}
         </div>
         <div className="flex-1 min-w-0">
           <h3 className="text-sm font-medium line-clamp-2 group-hover:text-blue-600 transition-colors">
             {video.title}
           </h3>
-          <p className="text-xs text-gray-600 mt-1">{video.channelName}</p>
-          <div className="flex items-center text-xs text-gray-600 mt-1">
-            <span>{video.views}</span>
-            <span className="mx-1">•</span>
-            <span>{video.timeAgo}</span>
+          <p className="text-xs text-gray-600 mt-1">{video.channel.channelName}</p>
+          <div className="flex items-center text-xs text-gray-600 mt-1 space-x-1">
+            <span>{formatViews(video.views)} views</span>
+            <span>•</span>
+            <span>{timeAgo(video.uploadDate)}</span>
           </div>
         </div>
       </div>
@@ -34,5 +69,4 @@ const VideoCard = ({ video }) => {
   );
 };
 
-
-export default VideoCard
+export default VideoCard;
