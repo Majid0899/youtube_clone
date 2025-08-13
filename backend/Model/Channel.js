@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const channelSchema = new mongoose.Schema(
   {
-     
+    channelId:{type:String,required:true,unique:true},
     channelName: { type: String, required: true},
     owner: {
       type: mongoose.Schema.Types.ObjectId,

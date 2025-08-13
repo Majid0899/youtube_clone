@@ -18,7 +18,7 @@ async function handleAddVideo(req, res) {
       return res.json({error:"title,description,thumbnailUrl videoUrl category duration channelId are required "})
     }
 
-    const channel = await Channel.findById(channelId);
+    const channel = await Channel.findOne({channelId:channelId});
     if (!channel) {
       return res.status(404).json({ error: "Channel Not Found" });
     }
@@ -35,7 +35,7 @@ async function handleAddVideo(req, res) {
       thumbnailUrl,
       videoUrl,
       duration,
-      channel: channelId,
+      channel: channel._id,
       uploader: req.user.id,
       category,
     });
@@ -46,7 +46,7 @@ async function handleAddVideo(req, res) {
     await channel.save();
 
     const response = await Video.findById(video._id)
-      .populate("channel", "channelName subscriber")
+      .populate("channel", "channelId channelName  subscriber")
       .populate("uploader", "username email");
 
     res
@@ -59,7 +59,7 @@ async function handleAddVideo(req, res) {
 async function handleGetVideos(req, res) {
   try {
     const videos = await Video.find()
-      .populate("channel", "channelName subscriber")
+      .populate("channel", "channelId channelName subscriber")
       .populate("uploader", "username email")
       .populate("likes", "username")
       .populate("dislikes", "username")

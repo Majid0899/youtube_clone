@@ -6,6 +6,7 @@ import FilterButtons from '../components/FilterButtons'
 import useVideo from '../utils/useVideo';
 import Loading from "../components/Loading"
 import NoVideosCard from '../components/NoVideosCard';
+import ErrorVideos from '../components/ErrorVideos';
 
 const Home = () => {
   const sidebarOpen = useSelector((state) => state.SideBar.sidebarOpen)
@@ -38,7 +39,7 @@ const Home = () => {
   }
 
   if (error) {
-    return <p>Error loading videos: {error}</p>;
+    return (<ErrorVideos error={error}/>);
   }
 
   if (videos && finalVideos.length === 0) {

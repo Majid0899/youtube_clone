@@ -3,19 +3,19 @@ import User from "../Model/User.js";
 
 async function handleaddChannel(req, res) {
   try {
-    const { channelName, description, channelBanner } = req.body;
-    // Check for channelname
-    if (!channelName || !description || !channelBanner) {
+    const { channelId,channelName, description, channelBanner } = req.body;
+   
+    if (!channelId || !channelName || !description || !channelBanner) {
       return res
         .status(400)
-        .json({ error: "Channel Name  Description and Banner is required" });
+        .json({ error: "Channel Name Id  Description and Banner is required" });
     }
 
     // Check if user already has a channel with same name
-    const existingChannel = await Channel.findOne({ channelName });
+    const existingChannel = await Channel.findOne({ channelId:channelId });
 
     if (existingChannel) {
-      return res.status(400).json({ message: "Channel name already exists." });
+      return res.status(400).json({ message: "Channel Already exists Please use any other channel Handler." });
     }
 
     const user = await User.findById(req.user.id);
@@ -23,6 +23,7 @@ async function handleaddChannel(req, res) {
       return res.status(404).json({ error: "User Not Exist" });
     }
     const channel = new Channel({
+      channelId,
       channelName,
       owner: req.user.id,
       description,
@@ -57,13 +58,13 @@ async function handlegetChannelDetail(req, res) {
      * Find the channel by id
      * Check Channel is present or Not
      */
-    const channel = await Channel.findById(channel_id);
+    const channel = await Channel.findOne({channelId:channel_id});
 
     if (!channel) {
       return res.status(404).json({ error: "Channel not found" });
     }
 
-    const response = await Channel.findById(channel_id)
+    const response = await Channel.findById(channel._id)
       .populate("owner", "username email")
       .populate("videos", "title description thumbnailUrl videoUrl duration").populate('subscribers','username');
 
@@ -79,7 +80,7 @@ async function handlegetChannelDetail(req, res) {
 async function handleSubscriber(req, res) {
   try {
     const channel_id = req.params.id;
-    const channel = await Channel.findById(channel_id);
+    const channel = await Channel.findOne({channelId:channel_id});
 
     if (!channel) {
       return res.status(404).json({ error: "Channel not found" });
