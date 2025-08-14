@@ -15,7 +15,7 @@ async function handleaddChannel(req, res) {
     const existingChannel = await Channel.findOne({ channelId:channelId });
 
     if (existingChannel) {
-      return res.status(400).json({ message: "Channel Already exists Please use any other channel Handler." });
+      return res.status(400).json({ error: "Channel Already exists Please use any other channel Handler." });
     }
 
     const user = await User.findById(req.user.id);
@@ -62,6 +62,7 @@ async function handlegetChannelDetail(req, res) {
 
     if (!channel) {
       return res.status(404).json({ error: "Channel not found" });
+      console.log(channel)
     }
 
     const response = await Channel.findById(channel._id)

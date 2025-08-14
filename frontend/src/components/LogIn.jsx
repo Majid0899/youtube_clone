@@ -57,7 +57,7 @@ const LogIn = () => {
           dispatch(addUser({
             avatar:response.data.user.avatar,
             username:response.data.user.username,
-            channel:response.data.user.channels.length,
+            channel:response.data.user.channels.length>0,
             token:response.data.token
           }))
           setTimeout(() => {

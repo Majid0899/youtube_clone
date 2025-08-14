@@ -68,7 +68,8 @@ const Header = () => {
             <ToggleOffIcon fontSize="large" color="action" />
           )}
         </button>
-{channel===0 &&  <Link to="/createChannel">
+  
+  {!channel && <Link to="/createChannel">
           <button className="hidden md:inline bg-gray-600 text-white px-4 py-1 rounded">
             <AddIcon fontSize="small" className="dark:text-white" /> Create
           </button>

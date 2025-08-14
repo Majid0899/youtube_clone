@@ -5,7 +5,7 @@ const userSlice = createSlice({
     initialState:{
         username:"",
         avatar:"",
-        channel:0,
+        channel:false,
         token:""
     },
     reducers:{
