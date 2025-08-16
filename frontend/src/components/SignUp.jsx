@@ -53,7 +53,7 @@ const SignUp = () => {
           localStorage.setItem('token', response.data.token);
           localStorage.setItem('avatar', response.data.user.avatar);
           localStorage.setItem('username',response.data.user.username);
-          localStorage.setItem('channel',response.data.user.channels.length);
+          localStorage.setItem('channel',response.data.user.channels.length>0);
           dispatch(addUser({
             avatar: response.data.user.avatar,
             username: response.data.user.username,

@@ -62,12 +62,12 @@ async function handlegetChannelDetail(req, res) {
 
     if (!channel) {
       return res.status(404).json({ error: "Channel not found" });
-      console.log(channel)
+      
     }
 
     const response = await Channel.findById(channel._id)
       .populate("owner", "username email")
-      .populate("videos", "title description thumbnailUrl videoUrl duration").populate('subscribers','username');
+      .populate("videos", "title description thumbnailUrl videoUrl views  category uploadDate duration").populate('subscribers','username');
 
     res
       .status(200)

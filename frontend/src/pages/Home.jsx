@@ -6,7 +6,7 @@ import FilterButtons from '../components/FilterButtons'
 import useVideo from '../utils/useVideo';
 import Loading from "../components/Loading"
 import NoVideosCard from '../components/NoVideosCard';
-import ErrorVideos from '../components/ErrorVideos';
+import ErrorVideos from '../components/ErrorState';
 
 const Home = () => {
   const sidebarOpen = useSelector((state) => state.SideBar.sidebarOpen)
@@ -39,10 +39,11 @@ const Home = () => {
   }
 
   if (error) {
-    return (<ErrorVideos error={error}/>);
+    return (<ErrorVideos message="Error Loading Videos" 
+  details="Please check your internet connection or try again later."/>);
   }
 
-  if (videos && finalVideos.length === 0) {
+  if (!videos && finalVideos.length === 0) {
     return (<NoVideosCard videos={videos} setfinalVideos={setfinalVideos} />)
   }
 

@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { addUser } from '../redux/userSlice';
 const LogIn = () => {
+   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
@@ -19,6 +20,7 @@ const LogIn = () => {
 
     // Client-side validation
     let tempErrors = {};
+    if (!name.trim()) tempErrors.name = "Name is required";
     if (!email.trim()) {
       tempErrors.email = "Email is required";
     } else if (!/\S+@\S+\.\S+/.test(email)) {
@@ -34,7 +36,6 @@ const LogIn = () => {
       setErrors(tempErrors);
       return;
     }
-
     setErrors({});
     setServerError("");
     setSuccessMessage("");
@@ -42,6 +43,7 @@ const LogIn = () => {
     async function sendData() {
       try {
         const response = await axios.post('http://localhost:5100/user/login', {
+          username: name,
           email,
           password
         });
@@ -50,7 +52,7 @@ const LogIn = () => {
           localStorage.setItem('token', response.data.token);
           localStorage.setItem('avatar',response.data.user.avatar)
           localStorage.setItem('username',response.data.user.username)
-          localStorage.setItem('channel',response.data.user.channels.length)
+          localStorage.setItem('channel',response.data.user.channels.length>0)
 
           setSuccessMessage(`${response.data.message} redirecting ....`);
           console.log(response.data.user)
@@ -91,6 +93,20 @@ const LogIn = () => {
         )}
 
         <form className="space-y-4" onSubmit={handleLogIn}>
+                    {/* Username */}
+          <div>
+            <label htmlFor="username" className="block text-sm font-medium text-gray-700 dark:text-white">Username</label>
+            <input
+              type="text"
+              id="username"
+              name="username"
+              autoComplete="username"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="mt-1 block w-full rounded-lg border dark:text-white border-gray-300 p-2 focus:border-blue-500 focus:ring focus:ring-blue-200"
+            />
+            {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
+          </div>
           {/* Email */}
           <div>
             <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-white">Email</label>

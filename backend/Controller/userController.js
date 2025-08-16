@@ -48,12 +48,13 @@ async function handleAddUser(req, res) {
 }
 async function handleLoginUser(req, res) {
   try {
-    //Extract the useremail and password from request body;
-    const { email, password } = req.body;
+    //Extract the username , useremail and password from request body;
+    const {username,email,password,avatar} = req.body;
 
     //Check email and password is present or not
-    if (!email || !password) {
-      return res.status(400).json({ error: "Email and password are required" });
+    if(!username || !email || !password){
+      return res.status(400).json({error:"Please Enter Username email and password !!"})
+
     }
 
     /**
@@ -88,7 +89,7 @@ async function handleUserProfile(req,res) {
         //extract the login user data using token verfication
         const user_data=req.user;
         //retreive the user from database;
-        const user=await User.findById(user_data.id);
+        const user=await User.findById(user_data.id).populate('channels','channelId');
         if(!user){
           return res.status(200).json({error:"User is not found"})
 

@@ -92,7 +92,7 @@ const validateFields = () => {
           }, 1500);
         }
       } catch (error) {
-        console.log(error.response.data)
+       
         if (error.response?.data?.error) {
           setServerError(error.response.data.error);
         } else {

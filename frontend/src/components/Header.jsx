@@ -10,11 +10,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { toggleTheme } from "../redux/themeSlice";
 import { toggleSidebar } from "../redux/sidebarslice";
 import { addSearchText } from "../redux/searchSlice";
+import AccountModal from "./AccountModal";
 
 
 
 
 const Header = () => {
+  const [open, setOpen] = useState(false);
   const isdark = useSelector((state) => state.theme.isdark);
   const dispatch = useDispatch();
   const avatar = useSelector((state) => state.user.avatar)
@@ -27,6 +29,7 @@ const Header = () => {
     dispatch(addSearchText(input))
     setInput("")
   }
+ 
 
 
   return (
@@ -76,13 +79,14 @@ const Header = () => {
         </Link>}
        
         {avatar ? (
-          <Link to="/profile">
+          <button>
             <img
               src={avatar}
               alt="User Avatar"
               className="w-8 h-8 rounded-full border"
+              onClick={() => setOpen(true)}
             />
-          </Link>
+          </button>
         ) : (
           <Link to="/signin">
             <button className="bg-blue-500 text-white px-4 py-1 hover:bg-blue-600">
@@ -90,6 +94,9 @@ const Header = () => {
             </button>
           </Link>
         )}
+
+
+        {open &&<AccountModal open={open} setOpen={setOpen} />}
 
 
 

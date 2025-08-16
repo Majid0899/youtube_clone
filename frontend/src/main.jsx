@@ -11,6 +11,7 @@ import CreateChannel from './components/CreateChannel.jsx'
 import NotFound from './pages/NotFound.jsx'
 import SignUp from './components/SignUp.jsx'
 import ChannelPage from './components/ChannelPage.jsx'
+import MyChannel from './components/MyChannel.jsx'
 const router=createBrowserRouter([
   {
     path:"/",
@@ -32,8 +33,11 @@ const router=createBrowserRouter([
         path:"/signup",
         element:<SignUp />
       },{
-        path:"/channel",
+        path:"/channel/:id",
         element:<ChannelPage />
+      },{
+        path:"/myChannel/:id",
+        element:<MyChannel />
       }
       
     ]

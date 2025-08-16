@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link, useParams } from 'react-router-dom';
 
 function formatViews(views) {
   if (views < 1000) return views.toString();
@@ -37,7 +38,10 @@ function timeAgo(uploadDate) {
 
 
 const VideoCard = ({ video }) => {
+
+  
   return (
+
     <div className="cursor-pointer group">
       <div className="relative mb-3">
         <img 
@@ -51,7 +55,7 @@ const VideoCard = ({ video }) => {
       </div>
       <div className="flex space-x-3">
         <div className="w-9 h-9 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-semibold text-sm">
-          {video.channel.channelName.charAt(0)}
+        <Link to={`/channel/${video.channel.channelId}`}>{video.channel.channelName.charAt(0)}</Link> 
         </div>
         <div className="flex-1 min-w-0">
           <h3 className="text-sm dark:text-white font-medium line-clamp-2 transition-colors">
