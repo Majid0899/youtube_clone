@@ -1,68 +1,54 @@
 import React from 'react';
-import { Link, useParams } from 'react-router-dom';
-
-function formatViews(views) {
-  if (views < 1000) return views.toString();
-  if (views < 1_000_000) return (views / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
-  if (views < 1_000_000_000) return (views / 1_000_000).toFixed(1).replace(/\.0$/, '') + 'M';
-  return (views / 1_000_000_000).toFixed(1).replace(/\.0$/, '') + 'B';
-}
-
-function timeAgo(uploadDate) {
-  const now = new Date();
-  const uploaded = new Date(uploadDate);
-
-  const diffMs = now - uploaded; // difference in milliseconds
-
-  const diffSeconds = Math.floor(diffMs / 1000);
-  const diffMinutes = Math.floor(diffSeconds / 60);
-  const diffHours = Math.floor(diffMinutes / 60);
-  const diffDays = Math.floor(diffHours / 24);
-  const diffMonths = (now.getFullYear() - uploaded.getFullYear()) * 12 + (now.getMonth() - uploaded.getMonth());
-  const diffYears = now.getFullYear() - uploaded.getFullYear();
-
-  if (diffSeconds < 60) {
-    return 'Just now';
-  } else if (diffMinutes < 60) {
-    return `${diffMinutes} minute${diffMinutes > 1 ? 's' : ''} ago`;
-  } else if (diffHours < 24) {
-    return `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`;
-  } else if (diffDays < 30) {
-    return `${diffDays} day${diffDays > 1 ? 's' : ''} ago`;
-  } else if (diffMonths < 12) {
-    return `${diffMonths} month${diffMonths > 1 ? 's' : ''} ago`;
-  } else {
-    return `${diffYears} year${diffYears > 1 ? 's' : ''} ago`;
-  }
-}
-
+import { Link } from 'react-router-dom';
+import timeAgo from '../utils/timeAgo';
+import formatViews from '../utils/formatViews';
 
 const VideoCard = ({ video }) => {
-
-  
+  /**
+   * It takes video as a props
+   * Display the video details
+   * For view formating a function is used which format them in K,M,B.
+   * For Uploading Formating a function is used which format the upload date in D,M,Y Ago.
+   */
   return (
-
-    <div className="cursor-pointer group">
-      <div className="relative mb-3">
+    <div className="cursor-pointer group rounded-xl  overflow-hidden shadow-sm  hover:shadow-neutral-600 hover:shadow-lg transition-all duration-300 bg-white dark:bg-gray-900">
+      {/* Thumbnail */}
+      <div className="relative mb-3 overflow-hidden rounded-t-xl">
         <img 
           src={video.thumbnailUrl} 
           alt={video.title}
-          className="w-full aspect-video object-cover rounded-lg"
+          className="w-full aspect-video object-cover transform group-hover:scale-105 transition-transform duration-300"
         />
-        <div className="absolute bottom-2 right-2 bg-black bg-opacity-80 text-white text-xs px-1 rounded">
+        {/* Play Button Overlay */}
+    <div className="absolute inset-0 flex items-center justify-center bg-black/50 bg-opacity-0 group-hover:bg-opacity-30 transition-all duration-300">
+      <svg xmlns="http://www.w3.org/2000/svg" className="w-12 h-12 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M8 5v14l11-7z" />
+      </svg>
+    </div>
+        {/* Duration badge */}
+        <div className="absolute bottom-2 right-2 transparent bg-opacity-80 text-white text-xs px-2 py-0.5 rounded">
           {video.duration}
         </div>
       </div>
-      <div className="flex space-x-3">
-        <div className="w-9 h-9 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-semibold text-sm">
-        <Link to={`/channel/${video.channel.channelId}`}>{video.channel.channelName.charAt(0)}</Link> 
+
+      {/* Content */}
+      <div className="flex px-3 pb-3 space-x-3">
+        {/* Channel Avatar (first letter) */}
+        <div className="w-9 h-9 bg-gradient-to-br from-blue-500 to-purple-400 rounded-full flex items-center justify-center text-white font-semibold text-sm group-hover:scale-110 transition-transform duration-300">
+          <Link to={`/channel/${video.channel.channelId}`}>
+            {video.channel.channelName.slice(0,2)}
+          </Link>
         </div>
+
+        {/* Video Info */}
         <div className="flex-1 min-w-0">
-          <h3 className="text-sm dark:text-white font-medium line-clamp-2 transition-colors">
+          <h3 className="text-sm font-medium line-clamp-2 text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300">
             {video.title}
           </h3>
-          <p className="text-xs text-gray-600 dark:text-amber-600 mt-1 ">{video.channel.channelName}</p>
-          <div className="flex items-center dark:text-blue-600 text-xs text-gray-600 mt-1 space-x-1">
+          <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">
+            {video.channel.channelName}
+          </p>
+          <div className="flex items-center text-xs text-gray-500 dark:text-gray-400 mt-1 space-x-1">
             <span>{formatViews(video.views)} views</span>
             <span>•</span>
             <span>{timeAgo(video.uploadDate)}</span>

@@ -1,4 +1,3 @@
-
 import { Outlet } from 'react-router-dom';
 import Header from './Header';
 import { useSelector, useDispatch } from 'react-redux'
@@ -6,6 +5,13 @@ import SideBar from "./SideBar";
 import MiniSideBar from "./MiniSideBar";
 import { toggleSidebar } from '../redux/sidebarslice';
 const Layout = () => {
+    /**
+     * Using Redux we mantain the state of sidebar
+     *Whether it is Open or Close
+
+     * Using Redux we get the isdark state from Header
+     *  Which is used to apply dark theme 
+     */
     const sidebarOpen = useSelector((state) => state.SideBar.sidebarOpen)
     const isdark = useSelector((state) => state.theme.isdark);
 
@@ -27,7 +33,7 @@ const Layout = () => {
                 )}
                 {/* Outlet */}
                 <Outlet />
-               
+
             </div>
         </>
     )

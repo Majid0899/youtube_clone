@@ -3,12 +3,24 @@ import { useDispatch } from 'react-redux';
 import { addSearchText } from '../redux/searchSlice';
 
 const FilterButtons = ({ videos, setfinalVideos }) => {
-  const filters = ['All', 'Music', 'Gaming', 'Live', 'News', 'Comedy', 'Sports', 'Learning', 'Fashion', 'Podcast'];
+
+  /**
+   * Filter Buttons Stored in Array 
+   * Accept videos and setfinalVideos props 
+   * 
+   */
+  const filters = ['All', 'Music', 'Coding', 'Live', 'News', 'Comedy', 'Sports', 'Learning', 'Fashion', 'Podcast','Gaming','Skills'];
+  
   const dispatch=useDispatch()
+  
+  /**
+   * Handle Filter Videos
+   * Based On the filter
+   */
   const handleFilterVideos = (filterValue) => {
     dispatch(addSearchText(""))
     if (filterValue === 'All') {
-      setfinalVideos(videos); // show all videos
+      setfinalVideos(videos); 
     } else {
       const filteredVideos = videos.filter(
         (video) => video.category.trim().toLowerCase() === filterValue.toLowerCase().trim()

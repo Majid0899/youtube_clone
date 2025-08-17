@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-
 import { useSelector } from 'react-redux'
 import VideoList from '../components/VideoList'
 import FilterButtons from '../components/FilterButtons'
@@ -9,21 +8,40 @@ import NoVideosCard from '../components/NoVideosCard';
 import ErrorVideos from '../components/ErrorState';
 
 const Home = () => {
-  const sidebarOpen = useSelector((state) => state.SideBar.sidebarOpen)
-  const searchText = useSelector((state) => state.search.searchText)
-
-
+  /**
+   * Use custom Hooks useVideo which fetch the videos data using useEffect Hook,
+   * useVideo ---- return the videos, loading ,error.
+   */
   const { videos, loading, error } = useVideo()
   const [finalVideos, setfinalVideos] = useState(videos)
+  /**
+   * Using Redux we mantain the state of sidebar
+   * Whether it is Open or Close
+   * 
+   * Using Redux we get the search text from Header
+   * To filter the videos based on search Text.
+   */
+  const sidebarOpen = useSelector((state) => state.SideBar.sidebarOpen)
+  const searchText = useSelector((state) => state.search.searchText)
+  
+  
+  
 
-
-
+  /**
+   * It initialize the finalVideos state
+   * if videos.length > 0
+   * It runs on change of videos
+   */
   useEffect(() => {
     if (videos.length > 0) {
       setfinalVideos(videos)
     }
   }, [videos])
 
+  /**
+   * It filter the videos based on the search text
+   * It runs on two dependencies videos,searchText
+   */
   useEffect(() => {
     if(searchText.trim()===''){
       setfinalVideos(videos)
@@ -34,16 +52,22 @@ const Home = () => {
     setfinalVideos(filtered);
 
   }, [searchText, videos])
+
+  /** It run the Loading Component initially when the api fetch the data from server */
   if (loading) {
     return (<Loading />)
   }
 
+  /**It run the ErrorState Component  imported as Error Video
+   * It run if there is any error occur during Video fetching
+   */
   if (error) {
     return (<ErrorVideos message="Error Loading Videos" 
   details="Please check your internet connection or try again later."/>);
   }
 
-  if (!videos && finalVideos.length === 0) {
+  /** It run if No videos Found during Filter Search Or Initially */
+  if (videos && finalVideos.length === 0) {
     return (<NoVideosCard videos={videos} setfinalVideos={setfinalVideos} />)
   }
 

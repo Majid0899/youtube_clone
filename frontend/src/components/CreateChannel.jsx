@@ -105,7 +105,7 @@ const validateFields = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8 mt-8">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8 mt-8">
       {/* Success Dialog */}
       {successDialog && (
         <div className="fixed inset-0 flex items-center justify-center bg-opacity-50 z-50">
@@ -136,7 +136,7 @@ const validateFields = () => {
       {/* Header */}
       <div className="max-w-4xl mx-auto px-4 mb-8">
         <div className="flex justify-between items-center">
-          <h1 className="text-2xl font-bold text-gray-900">Create Your Channel</h1>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Create Your Channel</h1>
           <div className="flex items-center space-x-3">
             <div className="w-14 h-12 bg-blue-500 rounded-full flex items-center justify-center">
               {(username && avatar) && (
@@ -159,7 +159,7 @@ const validateFields = () => {
       )}
 
       <div className="max-w-4xl mx-auto px-4">
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200">
+        <div className="bg-white  dark:bg-gray-900 rounded-lg shadow-sm border border-gray-200">
           {/* Banner */}
           <div className="relative h-48 bg-gradient-to-r from-blue-400 to-purple-500 rounded-t-lg overflow-hidden">
             <div className="absolute inset-0 flex items-center justify-center">
