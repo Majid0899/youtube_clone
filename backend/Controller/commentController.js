@@ -6,6 +6,10 @@ async function handleAddComment(req, res) {
     const videoId = req.params.id;
     const { text } = req.body;
 
+    if (!videoId || videoId === 'undefined') {
+      return res.status(400).json({ error: "Valid Video ID is required" });
+    }
+
     if (!text) {
       return res.status(400).json({ error: "Text is required!!!" });
     }
@@ -28,7 +32,16 @@ async function handleAddComment(req, res) {
 
     await video.save();
 
-    res.status(201).json({ response, message: "Comment Added" });
+    const commentWithUser = await Comment.findById(response._id).populate('user', 'username avatar');
+    
+      const commentData = {
+      commentId: commentWithUser._id,
+      username: commentWithUser.user?.username || "Unknown User",
+      avatar: commentWithUser.user?.avatar || "/images/default-avatar.png",
+      text: commentWithUser.text
+    };
+
+    res.status(201).json({ comment:commentData, message: "Comment Added" });
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Server error", error: error.message });
@@ -38,6 +51,9 @@ async function handleGetComments(req, res) {
   try {
     const videoId = req.params.id;
 
+    if (!videoId || videoId === 'undefined') {
+      return res.status(400).json({ error: "Valid Video ID is required" });
+    }
     const video = await Video.findById(videoId).populate({
       path: "comments", // first populate the comment IDs 
       populate: {
@@ -50,6 +66,7 @@ async function handleGetComments(req, res) {
     }
 
    const commentsData = video.comments.map(comment => ({
+  commentId:comment._id,
   username: comment.user?.username || "Unknown User",
   avatar: comment.user?.avatar || "/images/default-avatar.png",
   text: comment.text
@@ -68,22 +85,30 @@ async function handleEditComment(req,res) {
   try {
     const commentId=req.params.id;
     const {text}=req.body;
-    const comment=await Comment.findById(commentId)
+    if (!commentId || commentId === 'undefined') {
+      return res.status(400).json({ error: "Valid Comment ID is required" });
+    }
+    const comment=await Comment.findById(commentId).populate('user','username avatar')
     if(!comment){
       return res.status(404).json({error:"Comment not found!!!"})
     }
-    if(!comment.user.equals(req.user.id)){
-      return res.status(400).json({error:"You are not Authorized to edit comments of Other Person"})
+     if (!comment.user._id.equals(req.user.id)) {
+      return res.status(403).json({ error: "You are not Authorized to edit comments of Other Person" });
     }
 
     const response=await Comment.findByIdAndUpdate(commentId,{text},{
       new:true,
       runValidators:true,
     })
-    console.log(response)
+    const commentsData = {
+      commentId: response._id,
+      username: comment.user?.username || 'Unknown',
+      avatar: comment.user?.avatar || "/images/default-avatar.png",
+      text: response.text
+    };
 
 
-    res.status(200).json({comment:response,message:"Comment Updated"})
+    res.status(200).json({comment:commentsData,message:"Comment Updated"})
 
     
     
@@ -98,6 +123,9 @@ async function handleDeleteComment(req,res) {
   try {
     const commentId=req.params.id;
     const comment=await Comment.findById(commentId)
+    if (!commentId || commentId === 'undefined') {
+      return res.status(400).json({ error: "Valid Comment ID is required" });
+    }
     if(!comment){
       return res.status(404).json({error:"comment not found!!!"})
     }
@@ -106,6 +134,11 @@ async function handleDeleteComment(req,res) {
     }
 
     const response=await Comment.findByIdAndDelete(commentId)
+
+     await Video.updateOne(
+      { comments: commentId },
+      { $pull: { comments: commentId } }
+    );
 
     res.status(200).json({response,message:"comment Deleted"})
     
@@ -117,3 +150,5 @@ async function handleDeleteComment(req,res) {
 }
 
 export { handleAddComment, handleGetComments,handleEditComment,handleDeleteComment};
+
+

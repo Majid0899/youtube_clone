@@ -1,10 +1,11 @@
 import express from 'express'
-import { handleAddVideo,handleDeleteVideo,handleGetVideos,handleUpdateVideo,handleLikes,handleDislikes } from '../Controller/videoController.js'
+import { handleAddVideo,handleDeleteVideo,handleGetVideos,handleUpdateVideo,handleLikes,handleDislikes,handleGetVideo } from '../Controller/videoController.js'
 import { jwtAuthMiddleware } from '../Middlewares/auth.js'
 const router=express.Router()
 
 
 router.get("/",handleGetVideos)
+router.get("/:id",handleGetVideo)
 router.post("/",jwtAuthMiddleware,handleAddVideo)
 router.put("/:id",jwtAuthMiddleware,handleUpdateVideo)
 router.delete("/:id",jwtAuthMiddleware,handleDeleteVideo)

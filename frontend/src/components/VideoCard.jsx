@@ -11,6 +11,7 @@ const VideoCard = ({ video }) => {
    * For Uploading Formating a function is used which format the upload date in D,M,Y Ago.
    */
   return (
+    <Link to={`/watch/${video._id}`}>
     <div className="cursor-pointer group rounded-xl  overflow-hidden shadow-sm  hover:shadow-neutral-600 hover:shadow-lg transition-all duration-300 bg-white dark:bg-gray-900">
       {/* Thumbnail */}
       <div className="relative mb-3 overflow-hidden rounded-t-xl">
@@ -56,6 +57,7 @@ const VideoCard = ({ video }) => {
         </div>
       </div>
     </div>
+    </Link>
   );
 };
 

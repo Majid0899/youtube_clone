@@ -3,16 +3,21 @@ import HomeIcon from '@mui/icons-material/Home';
 import TheatersIcon from '@mui/icons-material/Theaters';
 import SubscriptionsIcon from '@mui/icons-material/Subscriptions';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import { useLocation } from "react-router-dom";
 const MiniSideBar = () => {
-    
 
+  const location=useLocation()
+    
+const isWatchPage = location.pathname.startsWith("/watch"); 
+
+  
   const sidebarMainItems = [
           { icon: HomeIcon, label: "Home" },
           { icon: TheatersIcon, label: "Shorts" },
           { icon: SubscriptionsIcon, label: "Subscriptions" },
           {icon:AccountCircleIcon,label:"You"}
       ];
-
+if (isWatchPage) return null;
   return (
    <aside className="fixed left-0 top-14 h-full bg-white dark:bg-gray-900 z-40 w-20 shadow-lg dark:shadow-md dark:shadow-gray-600 hidden lg:block">
       {/* Main Items */}

@@ -56,10 +56,23 @@ async function handleAddVideo(req, res) {
     res.status(500).json({ error: "Internal Server Error" });
   }
 }
+async function handleGetVideo(req,res){
+  try {
+    const id=req.params.id;
+    const video = await Video.findById(id)
+      .populate("channel", "channelId channelName subscribers")
+      .populate("uploader", "username email")
+      .populate("likes", "username")
+      .populate("dislikes", "username")
+    res.status(200).json({ video, message: "Video Fetched Successfully" });
+  } catch (error) {
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+}
 async function handleGetVideos(req, res) {
   try {
     const videos = await Video.find()
-      .populate("channel", "channelId channelName subscriber")
+      .populate("channel", "channelId channelName subscribers")
       .populate("uploader", "username email")
       .populate("likes", "username")
       .populate("dislikes", "username")
@@ -176,4 +189,5 @@ export {
   handleGetVideos,
   handleLikes,
   handleDislikes,
+  handleGetVideo
 };

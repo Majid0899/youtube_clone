@@ -12,6 +12,7 @@ import NotFound from './pages/NotFound.jsx'
 import SignUp from './components/SignUp.jsx'
 import ChannelPage from './components/ChannelPage.jsx'
 import MyChannel from './components/MyChannel.jsx'
+import WatchVideo from './components/WatchVideo.jsx'
 const router=createBrowserRouter([
   {
     path:"/",
@@ -38,6 +39,9 @@ const router=createBrowserRouter([
       },{
         path:"/myChannel/:id",
         element:<MyChannel />
+      },{
+        path:"/watch/:id",
+        element:<WatchVideo/>
       }
       
     ]
