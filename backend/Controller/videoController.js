@@ -61,7 +61,7 @@ async function handleGetVideo(req,res){
     const id=req.params.id;
     const video = await Video.findById(id)
       .populate("channel", "channelId channelName subscribers")
-      .populate("uploader", "username email")
+      .populate("uploader", "username email avatar")
       .populate("likes", "username")
       .populate("dislikes", "username")
     res.status(200).json({ video, message: "Video Fetched Successfully" });
@@ -100,7 +100,8 @@ async function handleLikes(req, res) {
 
     await video.save();
 
-    res.status(200).json({ likes: video.likes.length });
+    
+    res.status(200).json({video:video});
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Server error", error: error.message });
@@ -126,7 +127,7 @@ async function handleDislikes(req, res) {
 
     await video.save();
 
-    res.status(200).json({ dislikes: video.dislikes.length });
+    res.status(200).json({ video:video});
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Server error", error: error.message });

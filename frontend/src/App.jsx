@@ -13,7 +13,8 @@ export default function App() {
         avatar:localStorage.getItem("avatar"),
         username:localStorage.getItem("username"),
         channel:localStorage.getItem("channel"),
-        token:token
+        token:token,
+        id:localStorage.getItem("id")
       }))
     }
   },[dispatch])

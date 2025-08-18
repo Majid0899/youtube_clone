@@ -16,6 +16,7 @@ const FilterButtons = ({ videos, setfinalVideos }) => {
   /**
    * Handle Filter Videos
    * Based On the filter
+   * Update the redux state
    */
   const handleFilterVideos = (filterValue) => {
     dispatch(addSearchText(""))

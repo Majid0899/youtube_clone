@@ -1,5 +1,3 @@
-import React from "react";
-
 const ErrorState = ({ message = "Something went wrong!", details }) => {
   return (
     <div className="flex flex-col items-center justify-center w-full h-86 border-2 border-dashed border-gray-300 rounded-lg bg-gray-50 p-6">

@@ -1,20 +1,23 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { addUser } from '../redux/userSlice';
+import React, { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addUser } from "../redux/userSlice";
 const LogIn = () => {
-   const [name, setName] = useState("");
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
   const [serverError, setServerError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
 
-
   const navigate = useNavigate();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
+  /** Handle the Login functionality of user
+   * Perform Validation
+   * Set the logged in user to redux user state
+   */
   const handleLogIn = (e) => {
     e.preventDefault();
 
@@ -40,34 +43,45 @@ const LogIn = () => {
     setServerError("");
     setSuccessMessage("");
 
+    //Send the data to backend
     async function sendData() {
       try {
-        const response = await axios.post('http://localhost:5100/user/login', {
+        //Api Calling
+        const response = await axios.post("http://localhost:5100/user/login", {
           username: name,
           email,
-          password
+          password,
         });
 
         if (response.data.token) {
-          localStorage.setItem('token', response.data.token);
-          localStorage.setItem('avatar',response.data.user.avatar)
-          localStorage.setItem('username',response.data.user.username)
-          localStorage.setItem('channel',response.data.user.channels.length>0)
+          //Set the logged in user detail to localstorage
+          localStorage.setItem("token", response.data.token);
+          localStorage.setItem("avatar", response.data.user.avatar);
+          localStorage.setItem("username", response.data.user.username);
+          localStorage.setItem('id',response.data.user._id)
+          localStorage.setItem(
+            "channel",
+            response.data.user.channels.length > 0
+          );
 
+          // set the success message from server
           setSuccessMessage(`${response.data.message} redirecting ....`);
-          console.log(response.data.user)
-          dispatch(addUser({
-            avatar:response.data.user.avatar,
-            username:response.data.user.username,
-            channel:response.data.user.channels.length>0,
-            token:response.data.token
-          }))
+
+          dispatch(
+            addUser({
+              id:response.data.user._id,
+              avatar: response.data.user.avatar,
+              username: response.data.user.username,
+              channel: response.data.user.channels.length > 0,
+              token: response.data.token,
+            })
+          );
           setTimeout(() => {
-            navigate('/');
+            navigate("/");
           }, 1500);
         }
-
       } catch (error) {
+        //Set the server error
         if (error.response?.data?.error) {
           setServerError(error.response.data.error);
         } else {
@@ -81,21 +95,32 @@ const LogIn = () => {
 
   return (
     <div className="flex items-center justify-center min-h-screen dark:bg-gray-900 bg-gray-100">
-      <div className="w-full max-w-sm p-6 max-sm:mx-2 bg-white dark:border dark:border-white dark:bg-gray-900 rounded-xl shadow-lg">
-        <h2 className="text-2xl font-bold text-center text-gray-800 mb-6 dark:text-white">Sign In</h2>
+      <div className="w-full max-w-sm  mt-5 p-6 max-sm:mx-2 bg-white dark:border dark:border-white dark:bg-gray-900 rounded-xl shadow-lg">
+        <h2 className="text-2xl font-bold text-center text-gray-800 mb-6 dark:text-white">
+          Sign In
+        </h2>
 
         {successMessage && (
-          <div className="mb-4 p-2 text-green-800 bg-green-200 rounded-lg">{successMessage}</div>
+          <div className="mb-4 p-2 text-green-800 bg-green-200 rounded-lg">
+            {successMessage}
+          </div>
         )}
 
         {serverError && (
-          <div className="mb-4 p-2 text-red-800 bg-red-200 rounded-lg">{serverError}</div>
+          <div className="mb-4 p-2 text-red-800 bg-red-200 rounded-lg">
+            {serverError}
+          </div>
         )}
 
         <form className="space-y-4" onSubmit={handleLogIn}>
-                    {/* Username */}
+          {/* Username */}
           <div>
-            <label htmlFor="username" className="block text-sm font-medium text-gray-700 dark:text-white">Username</label>
+            <label
+              htmlFor="username"
+              className="block text-sm font-medium text-gray-700 dark:text-white"
+            >
+              Username
+            </label>
             <input
               type="text"
               id="username"
@@ -105,26 +130,40 @@ const LogIn = () => {
               onChange={(e) => setName(e.target.value)}
               className="mt-1 block w-full rounded-lg border dark:text-white border-gray-300 p-2 focus:border-blue-500 focus:ring focus:ring-blue-200"
             />
-            {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
+            {errors.name && (
+              <p className="text-red-500 text-sm mt-1">{errors.name}</p>
+            )}
           </div>
           {/* Email */}
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-white">Email</label>
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-gray-700 dark:text-white"
+            >
+              Email
+            </label>
             <input
               type="email"
               id="email"
               name="email"
-              autoComplete='user123@example.com'
+              autoComplete="user123@example.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="mt-1 block w-full rounded-lg border dark:text-white border-gray-300 p-2 focus:border-blue-500 focus:ring focus:ring-blue-200"
             />
-            {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
+            {errors.email && (
+              <p className="text-red-500 text-sm mt-1">{errors.email}</p>
+            )}
           </div>
 
           {/* Password */}
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-white">Password</label>
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-gray-700 dark:text-white"
+            >
+              Password
+            </label>
             <input
               type="password"
               id="password"
@@ -134,7 +173,9 @@ const LogIn = () => {
               onChange={(e) => setPassword(e.target.value)}
               className="mt-1 block w-full rounded-lg border dark:text-white border-gray-300 p-2 focus:border-blue-500 focus:ring focus:ring-blue-200"
             />
-            {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password}</p>}
+            {errors.password && (
+              <p className="text-red-500 text-sm mt-1">{errors.password}</p>
+            )}
           </div>
 
           {/* Submit Button */}
@@ -148,7 +189,7 @@ const LogIn = () => {
             Don't have an account?{" "}
             <button
               type="button"
-              onClick={() => navigate('/signup')}
+              onClick={() => navigate("/signup")}
               className="text-blue-500 hover:underline"
             >
               Sign Up

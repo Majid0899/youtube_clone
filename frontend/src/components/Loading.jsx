@@ -1,5 +1,6 @@
 
 const Loading = () => {
+  /**It shows the loading icon with the text Loading... */
   return (
     <>
       <div className="flex items-center min-h-screen justify-center space-x-2 text-blue-600">

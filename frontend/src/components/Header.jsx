@@ -137,6 +137,7 @@ const Header = () => {
               </button>
             </Link>
           )}
+          {/* Open Account Bar if user logged in */}
           {open && <AccountModal open={open} setOpen={setOpen} />}
         </div>
       )}

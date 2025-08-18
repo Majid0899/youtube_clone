@@ -23,7 +23,7 @@ const jwtAuthMiddleware=(req,res,next)=>{
         
     } catch (error) {
      
-        res.status(401).json({error:"Bad Request Authorizatin is Invalid"})
+        res.status(401).json({error:"Bad Request Authorization is Invalid Please Login or SignIn"})
         
     }
     

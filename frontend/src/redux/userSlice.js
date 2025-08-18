@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const userSlice = createSlice({
     name:"userslice",
     initialState:{
+        id:"",
         username:"",
         avatar:"",
         channel:false,
@@ -14,6 +15,7 @@ const userSlice = createSlice({
             state.avatar=action.payload.avatar
             state.channel=action.payload.channel
             state.token=action.payload.token
+            state.id=action.payload.id
         }      
     }
         

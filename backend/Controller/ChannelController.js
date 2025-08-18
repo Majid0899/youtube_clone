@@ -66,7 +66,7 @@ async function handlegetChannelDetail(req, res) {
     }
 
     const response = await Channel.findById(channel._id)
-      .populate("owner", "username email")
+      .populate("owner", "username email avatar")
       .populate("videos", "title description thumbnailUrl videoUrl views  category uploadDate duration").populate('subscribers','username');
 
     res
