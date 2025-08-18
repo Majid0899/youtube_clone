@@ -21,7 +21,7 @@ function ChannelPage() {
   // Redux user data
   const token = useSelector((state) => state.user.token);
   const userId = useSelector((state) => state.user.id);
-  const avatar = useSelector((state) => state.user.avatar);
+  
 
   // Get channel id from URL params
   const { id } = useParams();
@@ -29,11 +29,12 @@ function ChannelPage() {
   // Custom hook to fetch channel data
   const { channel, loading, error } = useChannel(id);
 
+
   // Update subscribe state when channel data loads
   useEffect(() => {
     if (!loading && channel) {
       setSubscriberCount(channel.subscribers.length);
-      setisSubscribe(channel.subscribers.includes(userId));
+      setisSubscribe(channel.subscribers.some((item) => item._id === userId));
     }
   }, [channel, loading, userId]);
 
