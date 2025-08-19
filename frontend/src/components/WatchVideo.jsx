@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import VideoPlayer from "./VideoPlayer";
 import ErrorVideos from "./ErrorState";
-import { useParams } from "react-router-dom";
+import { useParams,Link } from "react-router-dom";
 import axios from "axios";
 import Comments from "./Comments";
 import Loading from "./Loading";
@@ -167,14 +167,22 @@ const WatchVideo = () => {
             <div className="flex flex-wrap gap-2">
               <button
                 onClick={() => handlelike(video._id)}
-                className="px-3 py-1 sm:px-4 sm:py-2 bg-gray-200 dark:bg-slate-700 rounded-full"
+                className={`px-3 py-1 sm:px-4 sm:py-2 bg-gray-200 dark:bg-slate-700 rounded-full ${
+              token
+                ? "bg-black text-white hover:bg-gray-800"
+                : "bg-gray-300 text-gray-600 cursor-not-allowed"
+            }`}
                 disabled={!token}
               >
                 👍{video.likes?.length || 0}
               </button>
               <button
                 onClick={() => handledislike(video._id)}
-                className="px-3 py-1 sm:px-4 sm:py-2 bg-gray-200 dark:bg-slate-700 rounded-full"
+                className={`px-3 py-1 sm:px-4 sm:py-2 bg-gray-200 dark:bg-slate-700 rounded-full ${
+              token
+                ? "bg-black text-white hover:bg-gray-800"
+                : "bg-gray-300 text-gray-600 cursor-not-allowed"
+            }`}
                 disabled={!token}
               >
                 👎{video.dislikes?.length || 0}
@@ -193,7 +201,7 @@ const WatchVideo = () => {
         <div className="flex justify-between items-center mt-4 pb-4 border-b border-gray-300">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gray-300 rounded-full">
-              <img src={video.uploader.avatar} className="rounded-full" />
+              <Link to={`/channel/${video.channel.channelId}`}><img src={video.uploader.avatar} className="rounded-full" /></Link>
             </div>
             <div>
               <p className="font-medium dark:text-white">

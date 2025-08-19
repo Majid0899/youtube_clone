@@ -37,7 +37,7 @@ const MiniSideBar = () => {
       {/* Sidebar main items */}
       <div className="flex flex-col items-center px-2 py-3 space-y-4">
         {sidebarMainItems.map((item, index) => (
-          <Link to="/">
+          <Link to="/" key={index}>
           <div
             key={index}
             className="flex flex-col justify-center items-center space-y-0.5 rounded-lg cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 p-2"

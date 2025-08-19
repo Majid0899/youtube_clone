@@ -9,7 +9,7 @@ const FilterButtons = ({ videos, setfinalVideos }) => {
    * Accept videos and setfinalVideos props 
    * 
    */
-  const filters = ['All', 'Music', 'Coding', 'Live', 'News', 'Comedy', 'Sports', 'Learning', 'Fashion', 'Podcast','Gaming','Skills'];
+  const filters = ['All', 'Music', 'Coding', 'Travel', 'News', 'Comedy', 'Food', 'Education', 'Technology', 'Podcast','Gaming','Skills'];
   
   const dispatch=useDispatch()
   

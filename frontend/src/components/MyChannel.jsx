@@ -255,6 +255,7 @@ const MyChannel = () => {
         <AddVideo
           channelId={channel.channelId}
           isEdit={isEdit}
+          setIsEdit={setIsEdit}
           setReload={setReload}
           setOpen={setOpen}
           video={selectedVideo}

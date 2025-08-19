@@ -3,7 +3,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-const AddVideo = ({ channelId, setOpen, isEdit, setReload, video }) => {
+const AddVideo = ({ channelId, setOpen, isEdit, setIsEdit, setReload, video }) => {
 
     /** Defined state to set the formdata */
   const [formdata, setFormData] = useState({
@@ -117,6 +117,11 @@ const AddVideo = ({ channelId, setOpen, isEdit, setReload, video }) => {
     }
   }
 
+  function handleCancel(){
+    setIsEdit(false)
+    setOpen(false)
+  }
+
   //It ensure that if isEdit true form feilds are filled with the existing video data
   useEffect(() => {
     if (isEdit && video) {
@@ -151,7 +156,7 @@ const AddVideo = ({ channelId, setOpen, isEdit, setReload, video }) => {
           <h2 className="text-lg font-semibold dark:text-white">
             {isEdit ? "Edit Video" : "Add New Video"}
           </h2>
-          <button onClick={() => setOpen(false)}>
+          <button onClick={() => handleCancel()}>
             <CloseIcon className="w-5 h-5" />
           </button>
         </div>
@@ -247,7 +252,7 @@ const AddVideo = ({ channelId, setOpen, isEdit, setReload, video }) => {
           <div className="flex justify-end gap-3 px-4 py-3">
             <button
               type="button"
-              onClick={() => setOpen(false)}
+              onClick={() => handleCancel()}
               className="px-4 py-2 rounded-lg border dark:border-gray-700"
             >
               Cancel
