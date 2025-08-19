@@ -49,7 +49,7 @@ async function handleAddUser(req, res) {
 async function handleLoginUser(req, res) {
   try {
     //Extract the username , useremail and password from request body;
-    const {username,email,password,avatar} = req.body;
+    const {username,email,password} = req.body;
 
     //Check email and password is present or not
     if(!username || !email || !password){
@@ -64,7 +64,7 @@ async function handleLoginUser(req, res) {
     const user = await User.findOne({ email: email }).select("+password");
     if (!user || !(await user.comparePassword(password))) {
       return res.status(401).json({
-        error: "Invalid Email and password",
+        error: "Invalid Username Email and password",
       });
     }
     /**Generate Token

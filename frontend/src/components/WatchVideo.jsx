@@ -150,9 +150,9 @@ const WatchVideo = () => {
   };
 
   return (
-      <div className="flex flex-col lg:flex-row dark:bg-gray-900 max-w-7xl md:max-w-8xl mt-16 md:mt-12 px-3 sm:px-6 lg:px-8 gap-6">
+      <div className="flex flex-col lg:flex-row dark:bg-gray-900 max-w-7xl md:max-w-8xl mt-12 md:mt-14 px-3 sm:px-6 lg:px-8 gap-6">
       {/* Left (Main Video Section) */}
-      <div className="flex-1 w-full">
+      <div className="flex-1 py-2 w-full">
         <VideoPlayer video={video} />
 
         <div className="mt-4 border-b border-gray-300 pb-4">
